@@ -1,7 +1,7 @@
 import express from 'express'
 import request from 'supertest'
 import { MOCK_TOKEN } from '../../src/constants/token'
-import UserRoute from '../../src/domains/user/route'
+import UserRoute from '../../src/features/user/route'
 
 const app = express()
 app.use(express.json())
