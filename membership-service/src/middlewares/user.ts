@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import Joi from 'joi'
+import { MOCK_TOKEN } from '../constants/token'
 
 export const verifyToken = (
   req: Request,
@@ -8,7 +9,7 @@ export const verifyToken = (
 ): void => {
   const authHeader = req.headers?.authorization
 
-  if (!authHeader || authHeader !== 'Bearer faketoken_user1') {
+  if (!authHeader || authHeader !== MOCK_TOKEN) {
     res.status(401).json({ message: 'Unauthorized' })
     return
   }
@@ -21,8 +22,12 @@ export const validateRequest = (schema: Joi.ObjectSchema) => {
     const { error } = schema.validate(req.body, { abortEarly: false })
     if (error) {
       res.status(400).json({
-        message: 'Validation error',
-        details: error.details.map((detail) => detail.message),
+        message: 'Validation error, please check your payload',
+        status: 'error',
+        details: error.details.map((err) => ({
+          message: err.message,
+          field: err.path.join('.'),
+        })),
       })
       return
     }

@@ -1,9 +1,12 @@
 import { Router } from 'express'
-import { register } from './controller'
+import { validateRequest, verifyToken } from '../../middlewares/user'
+import { getAllUsers, register } from './controller'
+import { registerSchema } from './validation'
 
 const router = Router()
 
-router.post('/register', register)
+router.get('/', verifyToken, getAllUsers)
+router.post('/register', validateRequest(registerSchema), register)
 
 module.exports = router
 

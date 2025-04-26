@@ -1,15 +1,57 @@
 import { Request, Response } from 'express'
-import { registerUser } from './service'
-import { UserRegister } from './type'
+import { getAllUserData, geUserDataById, registerUser } from './service'
+import { UserRegisterRequest } from './type'
 
-export const register = (req: Request, res: Response): void => {
+export const register = async (req: Request, res: Response) => {
   try {
-    const userData: UserRegister = req.body
-    const newUser = registerUser(userData)
+    const userData: UserRegisterRequest = req.body
+    const newUser = await registerUser(userData)
 
-    console.log({ newUser })
+    if (newUser) {
+      res.status(201).json({ status: 'success', data: newUser })
+    } else {
+      res.status(400).json({
+        status: 'error',
+        message: 'User registration failed',
+      })
+    }
+  } catch {
+    res
+      .status(500)
+      .json({ status: 'error', message: 'User registration failed' })
+  }
+}
 
-    res.status(201).json({ status: 'success', data: newUser })
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUserData()
+
+    if (users) {
+      res.status(200).json({ status: 'success', data: { users } })
+    } else {
+      res
+        .status(500)
+        .json({ status: 'error', message: 'User registration failed' })
+    }
+  } catch {
+    res
+      .status(500)
+      .json({ status: 'error', message: 'User registration failed' })
+  }
+}
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const id = +req.params.id
+    const user = await geUserDataById(id)
+
+    if (user) {
+      res.status(200).json({ status: 'success', data: user })
+    } else {
+      res
+        .status(500)
+        .json({ status: 'error', message: 'User registration failed' })
+    }
   } catch {
     res
       .status(500)

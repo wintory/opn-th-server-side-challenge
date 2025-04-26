@@ -7,5 +7,5 @@ export const registerSchema = Joi.object({
   dateOfBirth: Joi.date().iso().required(),
   gender: Joi.string().valid('male', 'female', 'other').required(),
   address: Joi.string().required(),
-  subscribeNewsletter: Joi.boolean().required(),
+  isSubscribeNewsletter: Joi.boolean().required(),
 })

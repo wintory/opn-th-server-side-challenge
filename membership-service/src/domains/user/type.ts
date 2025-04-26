@@ -1,11 +1,20 @@
-import { UserProfile } from '../user-profile/user-profile.type'
+export type Gender = 'male' | 'female' | 'other'
 
-export type UserRegister = Omit<UserProfile, 'id'>
+export interface User {
+  id: number
+  email: string
+  password: string
+  name: string
+  dateOfBirth: string
+  gender: Gender
+  address: string
+  isSubscribeNewsletter: boolean
+}
 
-export interface UserRegisterRequest extends UserRegister {}
+export interface UserRegisterRequest extends Omit<User, 'id'> {}
 
 export interface UserRegisterResponse {
-  data: Pick<UserProfile, 'name' | 'email'>
+  data: Pick<User, 'name' | 'email'>
   message: string
   status: 'success' | 'error'
 }
