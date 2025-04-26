@@ -1,7 +1,6 @@
-import { getAgeFromISODate } from '../../utilities/date'
 import { hashPassword } from '../../utilities/password'
 import { users } from './model'
-import { UserRegisterRequest } from './type'
+import { User, UserRegisterRequest } from './type'
 
 export const registerUser = async (userData: UserRegisterRequest) => {
   const hashedPassword = await hashPassword(userData.password)
@@ -22,22 +21,43 @@ export const registerUser = async (userData: UserRegisterRequest) => {
 export const getAllUserData = async () => {
   return users.map((user) => ({
     ...user,
-    age: getAgeFromISODate(user.dateOfBirth),
     password: undefined,
   }))
 }
 
-export const geUserDataById = async (id: number) => {
+export const getUserDataById = async (id: number) => {
   const user = users.find((user) => user.id === id)
 
   if (!user) return null
 
+  return user
+}
+
+export const updateUserById = async (
+  id: number,
+  data: Pick<
+    User,
+    'dateOfBirth' | 'address' | 'gender' | 'isSubscribeNewsletter'
+  >
+) => {
+  const userIdx = users.findIndex((user) => user.id === id)
+
+  if (userIdx === -1) {
+    return null
+  }
+
+  const user = users[userIdx]
+
+  users[userIdx] = {
+    ...user,
+    dateOfBirth: data.dateOfBirth,
+    gender: data.gender,
+    address: data.address,
+    isSubscribeNewsletter: data.isSubscribeNewsletter,
+  }
+
   return {
-    email: user.email,
-    name: user.name,
-    age: getAgeFromISODate(user.dateOfBirth),
-    gender: user.gender,
-    address: user.address,
-    isSubscribeNewsletter: user.isSubscribeNewsletter,
+    ...users[userIdx],
+    password: undefined,
   }
 }

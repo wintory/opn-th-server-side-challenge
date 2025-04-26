@@ -12,9 +12,3 @@ export interface User {
 }
 
 export interface UserRegisterRequest extends Omit<User, 'id'> {}
-
-export interface UserRegisterResponse {
-  data: Pick<User, 'name' | 'email'>
-  message: string
-  status: 'success' | 'error'
-}

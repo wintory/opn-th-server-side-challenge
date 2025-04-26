@@ -9,3 +9,10 @@ export const registerSchema = Joi.object({
   address: Joi.string().required(),
   isSubscribeNewsletter: Joi.boolean().required(),
 })
+
+export const editUserSchema = Joi.object({
+  dateOfBirth: Joi.date().iso().required(),
+  gender: Joi.string().valid('male', 'female', 'other').required(),
+  address: Joi.string().required(),
+  isSubscribeNewsletter: Joi.boolean().required(),
+})
