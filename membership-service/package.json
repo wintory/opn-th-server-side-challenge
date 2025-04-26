@@ -5,7 +5,7 @@
   "author": "wintory <thanapol.sakul@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "ts-node ./app.ts",
     "dev": "nodemon",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
