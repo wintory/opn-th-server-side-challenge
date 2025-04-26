@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { getAgeFromISODate } from '../../utilities/date'
-import { comparePassword } from '../../utilities/password'
+import { comparePassword, hashPassword } from '../../utilities/password'
 import {
   deleteUserById,
   getAllUserData,
@@ -93,7 +93,10 @@ export const editUser = async (req: Request, res: Response) => {
     const updatedUser = await updateUserById(id, req.body)
 
     if (updatedUser) {
-      res.status(200).json({ status: 'success', data: updatedUser })
+      res.status(200).json({
+        status: 'success',
+        data: { ...updatedUser, password: undefined },
+      })
     } else {
       res.status(400).json({
         status: 'error',
@@ -135,7 +138,8 @@ export const changePassword = async (
       return
     }
 
-    const isUpdatedPassword = await updatePasswordById(id, newPassword)
+    const hashedPassword = await hashPassword(newPassword)
+    const isUpdatedPassword = await updatePasswordById(id, hashedPassword)
 
     if (isUpdatedPassword) {
       res.status(200).json({

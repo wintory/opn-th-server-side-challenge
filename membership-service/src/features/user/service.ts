@@ -1,5 +1,5 @@
 import { hashPassword } from '../../utilities/password'
-import { users } from './model'
+import { userModel } from './model'
 import { User, UserRegisterRequest } from './type'
 
 export const registerUser = async (userData: UserRegisterRequest) => {
@@ -7,24 +7,20 @@ export const registerUser = async (userData: UserRegisterRequest) => {
   const newUser = {
     ...userData,
     password: hashedPassword,
-    id: users.length + 1,
+    id: userModel.getAll().length + 1,
   }
 
-  users.push(newUser)
+  userModel.create(newUser)
 
   return newUser
 }
 
 export const getAllUserData = async () => {
-  return users
+  return userModel.getAll()
 }
 
 export const getUserDataById = async (id: number) => {
-  const user = users.find((user) => user.id === id)
-
-  if (!user) return null
-
-  return user
+  return userModel.findById(id)
 }
 
 export const updateUserById = async (
@@ -34,50 +30,24 @@ export const updateUserById = async (
     'dateOfBirth' | 'address' | 'gender' | 'isSubscribeNewsletter'
   >
 ) => {
-  const userIdx = users.findIndex((user) => user.id === id)
-
-  if (userIdx === -1) {
-    return null
-  }
-
-  const user = users[userIdx]
-
-  users[userIdx] = {
-    ...user,
+  const updatedData = {
     dateOfBirth: data.dateOfBirth,
     gender: data.gender,
     address: data.address,
     isSubscribeNewsletter: data.isSubscribeNewsletter,
   }
+  const user = userModel.update(id, updatedData)
 
-  return {
-    ...users[userIdx],
-    password: undefined,
-  }
+  return user
 }
 
 export const deleteUserById = async (id: number) => {
-  const userIdx = users.findIndex((user) => user.id === id)
-
-  if (userIdx === -1) {
-    return false
-  }
-
-  users.splice(userIdx, 1)
-
-  return true
+  return userModel.delete(id)
 }
 
-export const updatePasswordById = async (id: number, password: string) => {
-  const userIdx = users.findIndex((user) => user.id === id)
-
-  if (userIdx === -1) {
-    return false
-  }
-
-  const hashedPassword = await hashPassword(password)
-
-  users[userIdx].password = hashedPassword
-
-  return true
+export const updatePasswordById = async (
+  id: number,
+  hashedPassword: string
+) => {
+  return userModel.update(id, { password: hashedPassword })
 }

@@ -1,7 +1,7 @@
 import express from 'express'
 import request from 'supertest'
 import { MOCK_TOKEN } from '../../src/constants/token'
-import { users } from '../../src/features/user/model'
+import { userModel } from '../../src/features/user/model'
 import UserRoute from '../../src/features/user/route'
 
 const app = express()
@@ -198,7 +198,7 @@ describe('User API', () => {
 
   describe('PUT /api/user/:id/password', () => {
     beforeEach(() => {
-      users.push({
+      userModel.create({
         id: 1,
         email: 'email@mail.com',
         password:
