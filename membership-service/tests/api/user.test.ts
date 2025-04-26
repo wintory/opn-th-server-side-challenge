@@ -1,6 +1,7 @@
 import express from 'express'
 import request from 'supertest'
 import { MOCK_TOKEN } from '../../src/constants/token'
+import { users } from '../../src/features/user/model'
 import UserRoute from '../../src/features/user/route'
 
 const app = express()
@@ -196,19 +197,33 @@ describe('User API', () => {
   })
 
   describe('PUT /api/user/:id/password', () => {
-    // it('should change user password by id', async () => {
-    //   const response = await request(app)
-    //     .put('/api/user/1/password')
-    //     .set('Authorization', MOCK_TOKEN)
-    //     .send({
-    //       currentPassword: 'securePassword123',
-    //       newPassword: 'securePassword456',
-    //     })
+    beforeEach(() => {
+      users.push({
+        id: 1,
+        email: 'email@mail.com',
+        password:
+          '$2b$10$fIT/TjSKXs05MXIJv9thGueTZnXFLAM8fPRmfmk/HPubYXnw22GGC',
+        name: 'Name1',
+        dateOfBirth: '1997-04-26T10:27:59.915Z',
+        gender: 'male',
+        address: 'Address1, Bangkok, Thailand',
+        isSubscribeNewsletter: true,
+      })
+    })
 
-    //   expect(response.status).toBe(200)
-    //   expect(response.body.status).toBe('success')
-    //   expect(response.body.message).toEqual('Password updated successfully')
-    // })
+    it('should change user password by id', async () => {
+      const response = await request(app)
+        .put('/api/user/1/password')
+        .set('Authorization', MOCK_TOKEN)
+        .send({
+          currentPassword: 'securePassword123',
+          newPassword: 'securePassword456',
+        })
+
+      expect(response.status).toBe(200)
+      expect(response.body.status).toBe('success')
+      expect(response.body.message).toEqual('Password updated successfully')
+    })
 
     it('should return error when current password is incorrect', async () => {
       const response = await request(app)
