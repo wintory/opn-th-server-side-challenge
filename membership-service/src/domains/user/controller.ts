@@ -159,7 +159,7 @@ export const deleteUser = async (
 ): Promise<void> => {
   try {
     const id = +req.params.id
-    const result = deleteUserById(id)
+    const result = await deleteUserById(id)
 
     if (!result) {
       res.status(404).json({

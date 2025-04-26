@@ -1,4 +1,4 @@
-import { getAgeFromISODate } from './date'
+import { getAgeFromISODate } from '../../src/utilities/date'
 
 describe('getAgeFromISODate', () => {
   beforeAll(() => {

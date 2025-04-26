@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { comparePassword, hashPassword } from './password'
+import { comparePassword, hashPassword } from '../../src/utilities/password'
 
 jest.mock('bcrypt')
 
