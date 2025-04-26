@@ -170,7 +170,7 @@ export const deleteUser = async (
     }
 
     res.json({ status: 'success', message: 'User deleted successfully' })
-  } catch (error) {
+  } catch {
     res.status(500).json({ status: 'error', message: 'Delete User failed' })
   }
 }

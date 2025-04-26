@@ -11,4 +11,4 @@ export interface User {
   isSubscribeNewsletter: boolean
 }
 
-export interface UserRegisterRequest extends Omit<User, 'id'> {}
+export type UserRegisterRequest = Omit<User, 'id'>
