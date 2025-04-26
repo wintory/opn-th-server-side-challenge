@@ -22,12 +22,8 @@ export const validateRequest = (schema: Joi.ObjectSchema) => {
     const { error } = schema.validate(req.body, { abortEarly: false })
     if (error) {
       res.status(400).json({
-        message: 'Validation error, please check your payload',
         status: 'error',
-        details: error.details.map((err) => ({
-          message: err.message,
-          field: err.path.join('.'),
-        })),
+        messages: error.details.map((err) => err.message.replace(/"/g, '')),
       })
       return
     }

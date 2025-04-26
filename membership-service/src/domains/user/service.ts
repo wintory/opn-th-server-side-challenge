@@ -12,17 +12,11 @@ export const registerUser = async (userData: UserRegisterRequest) => {
 
   users.push(newUser)
 
-  return {
-    ...newUser,
-    password: undefined,
-  }
+  return newUser
 }
 
 export const getAllUserData = async () => {
-  return users.map((user) => ({
-    ...user,
-    password: undefined,
-  }))
+  return users
 }
 
 export const getUserDataById = async (id: number) => {
@@ -60,4 +54,30 @@ export const updateUserById = async (
     ...users[userIdx],
     password: undefined,
   }
+}
+
+export const deleteUserById = async (id: number) => {
+  const userIdx = users.findIndex((user) => user.id === id)
+
+  if (userIdx === -1) {
+    return false
+  }
+
+  users.splice(userIdx, 1)
+
+  return true
+}
+
+export const updatePasswordById = async (id: number, password: string) => {
+  const userIdx = users.findIndex((user) => user.id === id)
+
+  if (userIdx === -1) {
+    return false
+  }
+
+  const hashedPassword = await hashPassword(password)
+
+  users[userIdx].password = hashedPassword
+
+  return true
 }

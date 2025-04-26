@@ -16,3 +16,8 @@ export const editUserSchema = Joi.object({
   address: Joi.string().required(),
   isSubscribeNewsletter: Joi.boolean().required(),
 })
+
+export const changePasswordSchema = Joi.object({
+  currentPassword: Joi.string().min(8).required(),
+  newPassword: Joi.string().min(8).required(),
+})
