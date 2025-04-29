@@ -1,7 +1,5 @@
 # Membership Service
 
----
-
 ### Tech Stack
 
 - **Backend**: Node.js, Express, Typescript
