@@ -1,0 +1,117 @@
+{
+  "Note": "Most of the table has crate_time and update_time columns, but I don't include them in this JSON file.",
+  "customers": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "name": "Thanapol Sakullertphasuk",
+    "email": "Thanapol@mail.com",
+    "dateOfBirth": "1995-01-01",
+    "gender[ENUM]": "male | female | other",
+    "location": "Bangkok, Thailand",
+    "status[ENUM]": "active | inactive | not verify email",
+    "phone_number": "+66 1234 5678",
+    "membership_tier_id[FK]": "membership.id"
+  },
+  "memberships": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "tier_name[ENUM]": "Silver | Gold | Platinum",
+    "status[ENUM]": "active | inactive"
+  },
+  "products": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "name": "Omise's Shirt",
+    "description": "Comfortable cotton t-shirt",
+    "category_id[FK]": "categories.id"
+  },
+  "categories": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "name": "Clothing",
+    "description": "Apparel and accessories"
+  },
+  "product_details": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "sku_id": "TSHIRT-BLACK-M-1",
+    "color": "Black",
+    "size": "M",
+    "price": 19.99,
+    "stock_quantity": 100,
+    "product_id[FK]": "products.id"
+  },
+  "carts": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "customer_id[FK]": "customers.id"
+  },
+  "cart_items": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "cart_id[FK]": "carts.id",
+    "product_id[FK]": "products.id",
+    "quantity": 2
+  },
+  "discounts": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "code": "OPN_SUMMER_DISCOUNT_2025",
+    "description": "10% off on all items",
+    "discount_type[ENUM]": "percentage | fixed",
+    "discount_value": 10,
+    "start_date": "DATETIME",
+    "end_date": "DATETIME"
+  },
+  "discounts_products": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "discount_id[FK]": "discounts.id",
+    "product_id[FK]": "products.id"
+  },
+  "orders": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "customer_id[FK]": "customers.id",
+    "status[ENUM]": "paid | unpaid | shipped | delivered | canceled",
+    "total_amount": 39.98,
+    "discount_amount": 0
+  },
+  "order_items": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "order_id[FK]": "orders.id",
+    "product_id[FK]": "prpoducts.id",
+    "quantity": 2
+  },
+  "payments": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "order_id[FK]": "orders.id",
+    "payment_method[ENUM]": "credit_card | bank_transfer | cash_on_delivery | paypal | omise",
+    "amount": 39.98,
+    "status[ENUM]": "pending | completed | failed"
+  },
+  "warehouses": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "name": "Bangkok Warehouse",
+    "location": "Bangkok"
+  },
+  "inventory": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "warehouse_id[FK]": "warehouses.id",
+    "product_id[FK]": "products.id",
+    "stock_quantity": 50
+  },
+  "shipping": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "order_id[FK]": "orders.id",
+    "shipping_address": "123, Bangkok, Thailand",
+    "shipping_method_id[FK]": "shipping_methods.id",
+    "tracking_number": "EMS_999999",
+    "notes": "Note for delivery",
+    "warehouse_id[FK]": "warehouses.id"
+  },
+  "shipping_methods": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "name": "Kerry Shipping",
+    "shipping_method[ENUM]": "standard | express | self_pickup",
+    "description": "Delivery within 3-5 business days",
+    "cost": 5.99
+  },
+  "order_fillment (to find which wherehouse can shipped this item)": {
+    "id[PK]": "1234-5678-90AB-CDEF12345678",
+    "order_item_id[FK]": "order_items.id",
+    "shipping_id[FK]": "shipping.id",
+    "wharehouse_id[FK]": "warehouses.id",
+    "quantity": 2
+  }
+}
